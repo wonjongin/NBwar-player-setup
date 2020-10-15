@@ -46,7 +46,7 @@ class MyApp(QWidget):
         # label_title.setFont(font_title)
         # label_title.move(10, 20)
         label_desc = QLabel(
-            "NBwar 플러그인을 위한 모드를 설치하는 프로그램 입니다.\n시작하시려면 시작하기를 종료하시려면 종료하기를 눌러주세요!!", self)
+            "NBwar 플러그인을 위한 모드를 설치하는 프로그램 입니다.\n시작하시려면 시작하기를 종료하시려면 종료하기를 눌러주세요!!\n시작하시기 전에 마인크래프트와 런처는 종료해 주세요!\n기존의 모드는 삭제 된다는 점 주의해 주세요", self)
         label_desc.setFont(QFont("Helvetica", pointSize=15))
         label_desc.setStyleSheet("Color: gray")
         label_os = QLabel("시스템: "+System.check_os(), self)
@@ -92,6 +92,7 @@ class MyApp(QWidget):
 
     def btn_start_fun(self, vbtn, label_log):
         # print(vbtn.text() + " is clicked")
+        vbtn.setEnabled(False)
         self.pbar.setMaximum(4)
         self.pbar.setValue(0)
         label_log.setText(
