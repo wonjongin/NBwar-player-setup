@@ -1,7 +1,9 @@
 import sys
+import os
+import shutil
 import platform
-from src import System
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QToolTip, QAction, QMainWindow, qApp, QHBoxLayout, QVBoxLayout
+from src import System, Web, FileSystem
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QToolTip, QAction, QMainWindow, qApp, QHBoxLayout, QVBoxLayout, QProgressBar
 from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtGui import QIcon, QFont
 
@@ -49,15 +51,24 @@ class MyApp(QWidget):
         label_desc.setFont(QFont("Helvetica", pointSize=15))
         label_os = QLabel("시스템: "+System.check_os(), self)
         label_os.setFont(QFont("Helvetica", pointSize=15))
+        label_log = QLabel("", self)
+        label_log.setFont(QFont("Helvetica", pointSize=15))
 
         # 버튼
         btn_start = QPushButton('시작하기', self)
-        btn_start.pressed.connect(lambda: self.btn_start_fun(btn_start))
+        btn_start.pressed.connect(
+            lambda: self.btn_start_fun(btn_start, label_log))
         # btn_start.move(10, 50)
 
         btn_exit = QPushButton("종료하기", self)
         btn_exit.pressed.connect(self.btn_exit_fun)
         # btn_exit.move(10, 80)
+
+        # 진행바
+        self.pbar = QProgressBar(self)
+        # self.pbar.setGeometry(30, 40, 200, 25)
+        self.pbar.setMinimum(0)
+        # self.pbar.setMaximum(0)
 
         # 레이아웃 구성
         wid = QWidget(self)
@@ -67,6 +78,8 @@ class MyApp(QWidget):
         vbox_main.addWidget(label_title)
         vbox_main.addWidget(label_desc)
         vbox_main.addWidget(label_os)
+        vbox_main.addWidget(label_log)
+        vbox_main.addWidget(self.pbar)
         vbox_main.addLayout(hbox_mainButtons)
 
         hbox_mainButtons.addWidget(btn_start)
@@ -76,8 +89,27 @@ class MyApp(QWidget):
         # 실행
         self.show()
 
-    def btn_start_fun(self, vbtn):
+    def btn_start_fun(self, vbtn, label_log):
         print(vbtn.text() + " is clicked")
+        self.pbar.setMaximum(4)
+        self.pbar.setValue(0)
+        label_log.setText(
+            '[INFO] Getting OS infomation and minecraft directory')
+        dirMinecraft = FileSystem.getMinecraftDir()
+        self.pbar.setValue(self.pbar.value() + 1)
+        label_log.setText('[INFO] Downloading mods files')
+        Web.webFileDownload(
+            'http://nanobyte.iptime.org/download/NBwar-setup/mods.zip', os.path.expanduser('~')+'/mods.zip')
+        self.pbar.setValue(self.pbar.value() + 1)
+        label_log.setText('[INFO] Unzipping mods files')
+        FileSystem.unzip(os.path.expanduser('~')+'/mods.zip')
+        self.pbar.setValue(self.pbar.value() + 1)
+        label_log.setText('[INFO] Copying mods...')
+        FileSystem.rmrmods()
+        shutil.copytree(os.path.expanduser('~')+'/mods',
+                        FileSystem.getMinecraftDir()+'/mods')
+        label_log.setText('[INFO] 완료되었습니다. 종료를 눌러주십시오')
+        self.pbar.setValue(self.pbar.value() + 1)
 
     def btn_exit_fun(self):
         return QCoreApplication.instance().quit()
