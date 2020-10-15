@@ -93,7 +93,7 @@ class MyApp(QWidget):
     def btn_start_fun(self, vbtn, label_log):
         # print(vbtn.text() + " is clicked")
         vbtn.setEnabled(False)
-        self.pbar.setMaximum(4)
+        self.pbar.setMaximum(5)
         self.pbar.setValue(0)
         label_log.setText(
             '[INFO] Getting OS infomation and minecraft directory')
@@ -110,6 +110,10 @@ class MyApp(QWidget):
         FileSystem.rmrmods()
         shutil.copytree(os.path.expanduser('~')+'/mods',
                         FileSystem.getMinecraftDir()+'/mods')
+        self.pbar.setValue(self.pbar.value() + 1)
+        label_log.setText('[INFO] Remove Cache')
+        FileSystem.rmr(os.path.expanduser('~')+'/mods')
+        os.remove(os.path.expanduser('~')+'/mods.zip')
         label_log.setText('[INFO] 완료되었습니다. 종료를 눌러주십시오')
         self.pbar.setValue(self.pbar.value() + 1)
 
