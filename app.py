@@ -5,7 +5,7 @@ import platform
 from src import System, Web, FileSystem
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QToolTip, QAction, QMainWindow, qApp, QHBoxLayout, QVBoxLayout, QProgressBar
 from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtGui import QIcon, QFont
+from PyQt5.QtGui import QIcon, QFont, QColor
 
 
 class MyApp(QWidget):
@@ -49,8 +49,10 @@ class MyApp(QWidget):
         label_desc = QLabel(
             "NBwar 플러그인을 위한 모드를 설치하는 프로그램 입니다.\n시작하시려면 시작하기를 종료하시려면 종료하기를 눌러주세요!!", self)
         label_desc.setFont(QFont("Helvetica", pointSize=15))
+        label_desc.setStyleSheet("Color: gray")
         label_os = QLabel("시스템: "+System.check_os(), self)
         label_os.setFont(QFont("Helvetica", pointSize=15))
+        label_os.setStyleSheet("Color: blue")
         label_log = QLabel("", self)
         label_log.setFont(QFont("Helvetica", pointSize=15))
 
@@ -90,7 +92,7 @@ class MyApp(QWidget):
         self.show()
 
     def btn_start_fun(self, vbtn, label_log):
-        print(vbtn.text() + " is clicked")
+        # print(vbtn.text() + " is clicked")
         self.pbar.setMaximum(4)
         self.pbar.setValue(0)
         label_log.setText(
