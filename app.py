@@ -1,11 +1,10 @@
 import sys
 import os
 import shutil
-import platform
 from src import System, Web, FileSystem
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QToolTip, QAction, QMainWindow, qApp, QHBoxLayout, QVBoxLayout, QProgressBar
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, qApp, QHBoxLayout, QVBoxLayout, QProgressBar
 from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtGui import QIcon, QFont, QColor
+from PyQt5.QtGui import QFont
 
 
 class MyApp(QWidget):
