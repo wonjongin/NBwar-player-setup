@@ -146,7 +146,7 @@ class MyApp(QWidget):
             # 완료
             label_log.setText('[INFO] 완료되었습니다. 종료를 눌러주십시오')
             self.pbar.setValue(self.pbar.value() + 1)
-            reply = QMessageBox.warning(self, 'Done', '세팅을 완료 했습니다.\n종료 하시겠습니까?',
+            reply = QMessageBox.question(self, 'Done', '세팅을 완료 했습니다.\n종료 하시겠습니까?',
                                         QMessageBox.Yes, QMessageBox.Yes)
             if reply == QMessageBox.Yes:
                 qApp.quit()
