@@ -20,9 +20,15 @@ def getMinecraftDir():
     return res
 
 
+def existMinecraftDir():
+    existMinecraft = os.path.isdir(getMinecraftDir())
+    existMods = os.path.isdir(getMinecraftDir() + '/mods')
+    return [existMinecraft, existMods]
+
+
 def createDir(dirPath):
     try:
-        if not(os.path.isdir(dirPath)):
+        if not (os.path.isdir(dirPath)):
             os.makedirs(os.path.join(dirPath))
     except OSError as e:
         if e.errno != e.errno.EEXIST:
@@ -42,5 +48,5 @@ def rmr(path):
 
 
 def rmrmods():
-    dirPath = getMinecraftDir()+"/mods"
+    dirPath = getMinecraftDir() + "/mods"
     rmr(dirPath)
