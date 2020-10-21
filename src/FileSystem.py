@@ -9,7 +9,8 @@ def getMinecraftDir():
     homePath = os.path.expanduser('~')
     res = ''
     if system == 'Windows':
-        res = '%APPDATA%/.minecraft'
+        appdataPath = os.getenv('APPDATA')
+        res = appdataPath + '//.minecraft'
     elif system == 'Darwin':
         res = homePath + '/Library/Application Support/minecraft'
     elif system == 'Linux':
